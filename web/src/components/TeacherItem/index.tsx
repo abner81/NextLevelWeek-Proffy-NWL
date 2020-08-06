@@ -2,38 +2,58 @@ import React from 'react'
 
 import './styles.css'
 import whatsappIcon from "../../assets/images/icons/whatsapp.svg";
+import api from '../../services/api';
 
-export default function TeacherItem() {
+export interface Teacher {
+  id: number,
+  subject: string,
+  cost: number,
+  name: string,
+  avatar: string,
+  whatsapp: string,
+  bio: string
+}
+
+interface TeacherItemProps {
+  teacher: Teacher
+}
+
+const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
+  const createNewConnection = () => {
+    api.post('connections', {
+      user_id: teacher.id
+    })
+  }
+
   return (
     <article className="teacher-item">
       <header>
         <img
-          src="https://avatars1.githubusercontent.com/u/54149914?s=460&u=e6a4306816a79fdcf1f4927c265ede6adcfb5a33&v=4"
+          src={teacher.avatar}
           alt="Abner Machado"
         />
         <div>
-          <strong>Abner Machado</strong>
-          <span>Engenharia de Software</span>
+          <strong>{teacher.name}</strong>
+          <span>{teacher.subject}</span>
         </div>
       </header>
 
       <p>
-        Professor com 15 anos de esperiência.
-        <br /> <br />
-        Mudando vidas através da tecnologia, ensinando alunos e aplicando
-        conhecimentos para resolver problemas.
+        {teacher.bio}
       </p>
 
       <footer>
         <p>
           Preço/hora
-          <strong>R$ 70,00</strong>
+          <strong>R$ {teacher.cost}</strong>
         </p>
-        <button type="button">
+        <a target='_blank' onClick={createNewConnection} href={`https://wa.me/55${teacher.whatsapp}`} type="button">
           <img src={whatsappIcon} alt="whatsapp" />
           Entrar em contato
-        </button>
+        </a>
       </footer>
     </article>
   );
 }
+
+export default TeacherItem

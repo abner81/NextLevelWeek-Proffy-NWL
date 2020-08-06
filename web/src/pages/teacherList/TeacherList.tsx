@@ -2,20 +2,32 @@ import React, { useState, FormEvent } from 'react'
 
 import './styles.css'
 
-import TeacherItem from '../../components/TeacherItem'
+import TeacherItem, { Teacher } from '../../components/TeacherItem'
 import PageHeader from '../../components/PageHeader'
 import Input from '../../components/Input'
 import Select from '../../components/Select'
+import api from '../../services/api'
+
 
 export default function TeacherList() {
+  const [teachers, setTeachers] = useState([])
+
   const [subject, setSubject] = useState('')
   const [week_day, setWeek_day] = useState('')
   const [time, setTime] = useState('')
 
-  const searchTeachers = (e: FormEvent) => {
+  const searchTeachers = async (e: FormEvent) => {
     e.preventDefault()
 
-    
+   const response = await api.get('classes', {
+      params: {
+        subject,
+        week_day,
+        time
+      }
+    })
+
+    setTeachers(response.data)
   }
 
   return (
@@ -60,14 +72,15 @@ export default function TeacherList() {
 
           <Input type='time' name='time' label='Hora' value={time}
             onChange={(e) => setTime(e.target.value)} />
+
+            <button type='submit'>Buscar</button>
         </form>
       </PageHeader>
 
       <main>
-        <TeacherItem />
-        <TeacherItem />
-        <TeacherItem />
-        <TeacherItem />
+        {teachers.map((teacher: Teacher) => {
+          return <TeacherItem key={teacher.id} teacher={teacher} />
+        })}
       </main>
     </div>
   );
