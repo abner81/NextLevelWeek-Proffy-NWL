@@ -9,6 +9,7 @@ export async function up(knex: Knex): Promise<void> {
 
     table
       .integer("user_id")
+      .unique()
       .notNullable()
       .references("id")
       .inTable("users")
@@ -22,5 +23,3 @@ export async function up(knex: Knex): Promise<void> {
 export async function down(knex: Knex): Promise<void> {
     return knex.schema.dropTable("login_user");
 }
-
-//20200813111831_04_create_login_user
