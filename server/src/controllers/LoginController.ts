@@ -1,13 +1,16 @@
 import { Request, Response } from "express";
-import bcrypt from 'bcryptjs'
+import bcrypt from "bcryptjs";
 
 import db from "../database/connection";
 
-export default class LoginController {
+export default class CreateLoginInfo {
   async index(req: Request, res: Response) {
     const { email, password, user_id } = req.body;
 
     try {
+      if (!email || !password || !user_id)
+        res.status(409).send("Preencha os campos: email, password e user_id.");
+
       const userExists = await db("login_user")
         .where({
           email: email,
@@ -20,27 +23,17 @@ export default class LoginController {
           .send("Email indisponível, tente novamente com outro email.");
       }
 
-      const encriptPassword = bcrypt.hashSync(password, 8)
+      const encriptPassword = bcrypt.hashSync(password, 8);
 
-      const response = await db("login_user").insert({
+      await db("login_user").insert({
         email: email,
         password: encriptPassword,
         user_id: user_id,
       });
-      console.log(response);
-      
 
-      res.send(response);
+      res.send('Sucess');
     } catch (error) {
-      res.status(error.status).send(error.message)
+      res.status(404).send(error.message);
     }
   }
-
-/*   async listUsers(req: Request, res: Response) {
-    const { email, password } = req.body;
-
-    const response = await db("login_user");
-
-    res.send(response);
-  } */
 }
