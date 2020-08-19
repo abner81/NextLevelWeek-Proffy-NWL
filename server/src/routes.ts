@@ -6,6 +6,7 @@ import CreateLoginInfo from "./controllers/LoginController";
 import AuthController from './controllers/AuthController';
 import AuthMiddleware from './middlewares/AuthMiddlawares';
 import CreateUser from './controllers/CreateUser';
+import ForgotMiddleware from './middlewares/ForgotMiddlawares';
 
 const routes = express.Router()
 
@@ -28,5 +29,9 @@ routes.post("/create-email", createLoginInfo.index);
 //Login
 routes.post("/generate-token", authControllers.index);
 routes.get("/auth", AuthMiddleware, authControllers.respAuth);
+
+//forgot password
+routes.post("/forgot_password", authControllers.forgotPassword);
+routes.post("/reset_password",authControllers.resetPassword);
 
 export default routes
