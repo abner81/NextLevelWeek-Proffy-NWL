@@ -1,0 +1,262 @@
+#page-content-cadastro {
+  width: 100vw;
+  height: 100vh;
+  background: var(--color-background);
+}
+
+#page-content-cadastro #header-wrapper-cadastro {
+  background: var(--color-primary);
+  height: 20vh;
+  padding: 2rem;
+}
+
+#page-content-cadastro #header-wrapper-cadastro .header-title-img-cadastro {
+  background-image: url('../../assets/images/Background-login.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#page-content-cadastro #header-wrapper-cadastro .header-title-img-cadastro img {
+  width: 18rem;
+  height: 9rem;
+}
+
+#background-header-cadastro {
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+form span {
+  color: #bf1650;
+}
+
+form span::before {
+  display: inline;
+  content: "⚠ ";
+}
+
+#form-wrapper-cadastro {
+  width: 100vw;
+  height: 80vh;
+  background: var(--color-background);
+}
+
+#form-wrapper-cadastro #form-content-cadastro {
+  margin: 0 auto;
+  margin-top: 3rem;
+}
+
+#form-wrapper-cadastro #form-content-cadastro h2 {
+  font: 600 3.4rem Poppins;
+  color: var(--color-text-title);
+  line-height: 3.4rem;
+  margin-top: 2rem;
+}
+
+#form-wrapper-cadastro #form-content-cadastro .input-cadastro-wrapper {
+  background: var(--color-box-footer);
+  border: 1px solid #E6E6F0;
+  border-radius: 0.8rem;
+  width: 100%;
+  height: 6rem;
+  outline: none;
+  position: relative;
+  margin-top: 0.5rem;
+}
+
+#form-wrapper-cadastro #form-content-cadastro .input-cadastro-wrapper input {
+  background: var(--color-box-footer);
+  width: 100%;
+  border: none;
+  border-radius: 0.8rem;
+  height: 6rem;
+  padding: 2rem 0 2rem 2.4rem;
+  font: 500 1.4rem Poppins;
+  color: var(--color-text-complement);
+  outline: none;
+}
+
+#form-wrapper-cadastro #form-content-cadastro .input-cadastro-wrapper:focus-within::after {
+  width: 2px;
+  height: 4rem;
+  content: '';
+  background: var(--color-primary);
+  position: absolute;
+  left: 0;
+  top: 1rem;
+  bottom: 1rem;
+}
+
+#form-wrapper-cadastro #form-content-cadastro .input-cadastro-wrapper:first-child {
+  /* border-radius: 8px 8px 0px 0px; */
+  margin-top: 2.4rem;
+}
+/* 
+#form-wrapper-cadastro #form-content-cadastro input:first-child {
+  border-radius: 8px 8px 0px 0px;
+}
+
+#form-wrapper-cadastro #form-content-cadastro .input-cadastro-wrapper:last-child {
+  border-radius: 0px 0px 8px 8px;
+  margin-top: 3px;
+}
+
+#form-wrapper-cadastro #form-content-cadastro .input-cadastro-wrapper input:last-child {
+  border-radius: 0px 0px 8px 8px;
+} */
+
+#form-wrapper-cadastro #form-content-cadastro #div-input-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#form-wrapper-cadastro #form-content-cadastro #div-input-flex button {
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+#form-wrapper-cadastro #form-content-cadastro .checkbox-forgot-wrapper-cadastro {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2.4rem;
+}
+
+.checkbox-forgot-wrapper-cadastro .checkbox-cadastro {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.checkbox-forgot-wrapper-cadastro .checkbox-cadastro input[type="checkbox"] {
+  margin-right: 0.8rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    padding: 0.8rem;
+    border: none;
+}
+
+.checkbox-forgot-wrapper-cadastro .checkbox-cadastro p {
+  font: 500 1.4rem Poppins;
+  color: var(--color-text-complement);
+}
+
+#form-content-cadastro .checkbox-forgot-wrapper-cadastro a {
+  text-decoration: none;
+  font: 500 1.5rem Poppins;
+  color: var(--color-text-complement);
+}
+
+#form-wrapper-cadastro #form-content-cadastro p{
+  color: #6A6180;
+  line-height: 26px;
+  font: 1.6rem Poppins;
+  margin-top: 1.6rem;
+  max-width: 21.3rem;
+}
+
+form button[type='submit'] {
+  width: 100%;
+  height: 5.6rem;
+  background: var(--color-secundary);
+  color: var(--color-button-text);
+  border: 0;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  font: 700 1.6rem Archivo;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background-color 0.2s;
+  margin-top: 4rem;
+  outline: none;
+}
+
+form button[type='submit']:hover {
+  background: var(--color-secundary-dark);
+}
+
+#form-content-cadastro .account-info-wrapper {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin: 3rem auto 1rem auto;
+}
+
+#form-content-cadastro .account-info-wrapper .create-account-div p {
+  font: 1.6rem Poppins;
+  color: var(--color-text-base);
+  line-height: 2.6rem;
+}
+
+#form-content-cadastro .account-info-wrapper .create-account-div a {
+  font: 600 1.6rem Poppins;
+  color: var(--color-text-base);
+  line-height: 2.6rem;
+}
+
+#form-content-cadastro .account-info-wrapper .free-heart-icon-wrapper {
+display: flex;
+align-items: center;
+}
+#form-content-cadastro .account-info-wrapper .free-heart-icon-wrapper p {
+  font: 1.2rem Poppins;
+  color: var(--color-text-complement);
+  margin-right: 0.8rem;
+}
+
+@media (min-width: 1024px) {
+  #page-content-cadastro {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'form title';
+  }
+
+  #page-content-cadastro #header-wrapper-cadastro {
+    grid-area: title;
+    width: 55vw;
+    height: 100vh;
+    padding: 4rem 6rem;
+  }
+
+  #page-content-cadastro #header-wrapper-cadastro .header-title-img-cadastro {
+    width: 100%;
+    height: 100%;
+  }
+
+  #form-wrapper-cadastro {
+    grid-area: form;
+    width: 45vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  #form-wrapper-cadastro #form-content-cadastro {
+    max-width: 35rem;
+  }
+
+  #page-content-cadastro #header-wrapper-cadastro .header-title-img-cadastro img {
+    width: 33rem;
+    height: 16rem;
+  }
+}
+
+

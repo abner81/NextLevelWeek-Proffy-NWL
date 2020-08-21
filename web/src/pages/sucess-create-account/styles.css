@@ -1,0 +1,51 @@
+.title-icons-sucess-page {
+  background-image: url('../../assets/images/Background-login.svg');
+  background-color: var(--color-primary);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title-icons-sucess-page h2 {
+  font: 600 5.4rem Archivo;
+  color: white;
+}
+
+.title-icons-sucess-page p {
+  font: 1.6rem Poppins;
+  margin-top: 2.4rem;
+  margin-bottom: 3rem;
+  color: #D4C2FF;
+  max-width: 36.7rem;
+  text-align: center;
+  line-height: 26px;
+}
+
+button[type='submit'] {
+  width: 20rem;
+  height: 5.6rem;
+  background: var(--color-secundary);
+  color: var(--color-button-text);
+  border: 0;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  font: 700 1.6rem Archivo;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background-color 0.2s;
+  margin-top: 4rem;
+  outline: none;
+}
+
+button[type='submit']:hover {
+  background: var(--color-secundary-dark);
+}
