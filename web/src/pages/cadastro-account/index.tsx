@@ -56,7 +56,7 @@ export default function CadastroAccount() {
                 })}
               />
             </div>
-            {errors.email && <span>Campo obrigatório!</span>}
+            {errors.nome && <span>Campo obrigatório!</span>}
 
             <div className="input-cadastro-wrapper">
               <input
@@ -67,7 +67,7 @@ export default function CadastroAccount() {
                 })}
               />
             </div>
-            {errors.email && <span>Campo obrigatório!</span>}
+            {errors.sobrenome && <span>Campo obrigatório!</span>}
 
             <div className="input-cadastro-wrapper">
               <input

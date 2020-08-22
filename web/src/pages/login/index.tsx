@@ -7,6 +7,7 @@ import TitleIcon from "../../assets/images/Intro-icons.svg";
 import HeartIcon from "../../assets/images/Vector-heart.svg";
 import PasswordIcon from "../../assets/images/icons/senha.svg";
 import noPasswordIcon from "../../assets/images/icons/ver-senha.svg";
+import Input from "../../components/Input";
 
 type Inputs = {
   email: string;

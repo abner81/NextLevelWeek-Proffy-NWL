@@ -10,12 +10,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center; 
 }
 
 .title-icons-sucess-page h2 {
   font: 600 5.4rem Archivo;
   color: white;
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .title-icons-sucess-page p {
