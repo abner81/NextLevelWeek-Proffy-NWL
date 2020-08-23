@@ -7,7 +7,8 @@ import TitleIcon from "../../assets/images/Intro-icons.svg";
 import HeartIcon from "../../assets/images/Vector-heart.svg";
 import PasswordIcon from "../../assets/images/icons/senha.svg";
 import noPasswordIcon from "../../assets/images/icons/ver-senha.svg";
-import Input from "../../components/Input";
+import { useAuth } from "../../contexts";
+import { Link } from "react-router-dom";
 
 type Inputs = {
   email: string;
@@ -15,20 +16,23 @@ type Inputs = {
 };
 
 export default function Login() {
-  const [formData, setFormData] = useState({});
+  const { setLoginFormData, signIn, loginFormData } = useAuth()
   const [isVisible, setIsVisible] = useState(true);
 
   const { register, handleSubmit, errors } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => setFormData(data);
-
-  console.log(formData);
+  const onSubmit: SubmitHandler<Inputs> = (data) => setLoginFormData(data)
 
   const handleClick = () => {
     setIsVisible(!isVisible);
   };
 
+  const handleSignInUser = async () => {
+    if (loginFormData)
+      signIn() 
+}
+
   return (
-    <div id="page-content-login" >
+    <div id="page-content-login">
       <section id="header-wrapper-login">
         <div className="header-title-img-login">
           <img src={TitleIcon} alt="Proffy" />
@@ -44,6 +48,7 @@ export default function Login() {
               <input
                 placeholder="E-mail"
                 name="email"
+                autoFocus={true}
                 ref={register({
                   required: true,
                 })}
@@ -88,15 +93,17 @@ export default function Login() {
                 <input type="checkbox" name="checkbox" />
                 <p>Lembrar-me</p>
               </div>
-              <a href="/">Esqueci minha senha</a>
+              <Link to="/forgot">Esqueci minha senha</Link>
             </div>
-            <button type="submit">Entrar</button>
+            <button type="submit" onClick={handleSignInUser}>
+              Entrar
+            </button>
           </form>
 
           <div className="account-info-wrapper">
             <div className="create-account-div">
               <p>Não tem conta?</p>
-              <a href="/">Cadastre-se</a>
+              <Link to="/cadastro">Cadastre-se</Link>
             </div>
             <div className="free-heart-icon-wrapper">
               <p>É de graça</p>

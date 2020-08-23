@@ -22,6 +22,10 @@ export default function ForgotPassword() {
   const { register, handleSubmit, errors } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => setFormData(data);
 
+  const handleSucessPage = () => {
+    
+  }
+
   return (
     <div id="page-content-forgot">
       <section id="header-wrapper-forgot">
@@ -49,7 +53,7 @@ export default function ForgotPassword() {
               />
             </div>
             {errors.email && <span>Campo obrigatório!</span>}
-            <button type="submit">Entrar</button>
+            <button type="submit" onClick={handleSucessPage}>Entrar</button>
           </form>
 
         </div>

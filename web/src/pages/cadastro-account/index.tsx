@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 
 import "./styles.css";
 
 import TitleIcon from "../../assets/images/Intro-icons.svg";
-import HeartIcon from "../../assets/images/Vector-heart.svg";
 import PasswordIcon from "../../assets/images/icons/senha.svg";
 import noPasswordIcon from "../../assets/images/icons/ver-senha.svg";
 import backIcon from "../../assets/images/icons/back.svg";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts";
 
 type Inputs = {
   nome: string
@@ -18,16 +19,22 @@ type Inputs = {
 };
 
 export default function CadastroAccount() {
-  const [formData, setFormData] = useState({});
+  const {loginFormData, setLoginFormData, createAccount} = useAuth()
   const [isVisible, setIsVisible] = useState(true);
 
-  const { register, handleSubmit, errors } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => setFormData(data);
+  const history = useHistory()
 
-  console.log(formData);
+  const { register, handleSubmit, errors } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (data) => setLoginFormData(data);
 
   const handleClick = () => {
     setIsVisible(!isVisible);
+  };
+
+  const handleCreateNewAccount = () => {
+    if (loginFormData) {
+      createAccount().then(() => history.push("/"));
+    } 
   };
 
   return (
@@ -112,7 +119,9 @@ export default function CadastroAccount() {
             )}
 
             {errors.senha && <span>Campo obrigatório!</span>}
-            <button type="submit">Entrar</button>
+            <button type="submit" onClick={handleCreateNewAccount}>
+              Entrar
+            </button>
           </form>
         </div>
       </section>
