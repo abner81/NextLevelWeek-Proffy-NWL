@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import CreateUserModel from "../models/CreateUserModel";
+import CreateUserModel from "../services/CreateUserModel";
 const userModel = new CreateUserModel()
 
 export default class CreateUser {

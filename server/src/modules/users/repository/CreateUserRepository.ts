@@ -1,4 +1,4 @@
-import db from "../database/connection";
+import db from "../../../shared/infra/database/connection";
 
 export default class CreateUserRepository {
   async usersInsertName(name: string) {

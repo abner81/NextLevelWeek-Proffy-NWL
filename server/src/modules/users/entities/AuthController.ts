@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import mailer from "../module/mailer";
 
-import db from "../database/connection";
+import mailer from '../infra/email'
+import db from "../../../shared/infra/database/connection";
 
 export default class AuthController {
   async index(req: Request, res: Response) {

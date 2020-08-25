@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 
-import CreateUserRepository from "../repositories/CreateUserRepository";
+import CreateUserRepository from "../repository/CreateUserRepository";
 const repository = new CreateUserRepository()
 
 export default class CreateUserModel {

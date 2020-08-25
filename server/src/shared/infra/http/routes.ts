@@ -1,12 +1,12 @@
 import express from 'express'
 
-import ClassesControler from './controllers/ClassesControler'
-import ConnectionsController from './controllers/ConnectionsController'
-import CreateLoginInfo from "./controllers/LoginController";
-import AuthController from './controllers/AuthController';
-import AuthMiddleware from './middlewares/AuthMiddlawares';
-import CreateUser from './controllers/CreateUser';
-import ForgotMiddleware from './middlewares/ForgotMiddlawares';
+import ClassesControler from '@classes/services/ClassesControler'
+import ConnectionsController from '@users/entities/ConnectionsController'
+import CreateLoginInfo from "@users/entities/LoginController";
+import AuthController from '../../../modules/users/entities/AuthController';
+import AuthMiddleware from '../../../modules/users/infra/http/middlewares/AuthMiddlawares';
+import CreateUser from '@users/entities/CreateUser';
+//import ForgotMiddleware from './middlewares/ForgotMiddlawares';
 
 const routes = express.Router()
 

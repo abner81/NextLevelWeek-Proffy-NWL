@@ -1,4 +1,4 @@
-import * as nodemailer from 'nodemailer'
+import * as nodemailer from "nodemailer";
 
 let transport = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
@@ -9,4 +9,4 @@ let transport = nodemailer.createTransport({
   },
 });
 
-export default transport
+export default transport;

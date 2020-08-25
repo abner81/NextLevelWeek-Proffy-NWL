@@ -1,4 +1,4 @@
-import FakeCreateUserRepository from "../repositories/fakes/FakeCreateUserRepository";
+import FakeCreateUserRepository from "../repository/fakes/FakeCreateUserRepository";
 import CreateUserModel from "./CreateUserModel";
 
 describe("CreateUserMobile", () => {
