@@ -1,65 +1,29 @@
 import { Request, Response } from "express";
-import bcrypt from 'bcryptjs'
 
-import db from "../database/connection";
+import CreateUserModel from "../models/CreateUserModel";
+const userModel = new CreateUserModel()
 
 export default class CreateUser {
-  async index(req: Request, res: Response) {
+  async createUserMobile (req: Request, res: Response) {
     const { name } = req.body;
 
     try {
-      if (!name)
-        res.status(404).send('Insira corretamente o seu nome!');
+      const response = await userModel.userMobileModel(name)
 
-      const user = await db('users').insert({
-        name: name
-      })
-
-      res.send({id: user[0]})
+      res.status(response.status).send(response.message)
     } catch (error) {
-      res.status(404).send(error.message);
+      res.status(404).send(error)
     }
   }
 
-  async createUser(req: Request, res: Response) {
+  async createUserWeb (req: Request, res: Response) {
     const { name, email, password } = req.body;
-
     try {
-      if (!name)
-        res.status(404).send('Insira corretamente o seu nome!');
+      const response = await userModel.userWebModel(name, email, password);
 
-      const user = await db('users').insert({
-        name: name
-      })
-
-      //res.send({id: })
-
-      if (!email || !password)
-        res.status(409).send("Preencha os campos: email e password.");
-
-      const userExists = await db("login_user")
-        .where({
-          email: email,
-        })
-        .select("email");
-
-      if (userExists.length > 0) {
-        res
-          .status(409)
-          .send("Email indisponível, tente novamente com outro email.");
-      }
-
-      const encriptPassword = bcrypt.hashSync(password, 8);
-
-      await db("login_user").insert({
-        email: email,
-        password: encriptPassword,
-        user_id: user[0],
-      });
-
-      res.send();
+       res.status(response.status).send(response.message);
     } catch (error) {
-      res.status(404).send(error.message);
+      res.status(404).send(error);
     }
   }
 }

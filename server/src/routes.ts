@@ -23,9 +23,9 @@ routes.post('/connections', connectionsControllers.create)
 routes.get('/connections', connectionsControllers.index)
 
 //Create new account
-routes.post("/create-users", userControllers.index);
+routes.post("/create-users", userControllers.createUserMobile);
 routes.post("/create-email", createLoginInfo.index);
-routes.post("/create/web", userControllers.createUser);
+routes.post("/create/web", userControllers.createUserWeb);
 
 //Login
 routes.post("/generate-token", authControllers.index);
