@@ -1,9 +1,6 @@
-interface iUserInsertName {
-  name: string
-  id: number
-}
+import ICreateUserRepository from "@users/repositories/ICreateUserRepository"
 
-export default class FakeCreateUserRepository {
+export default class FakeCreateUserRepository implements ICreateUserRepository {
   private users = []
 
   async usersInsertName(name: string) {
@@ -18,7 +15,7 @@ export default class FakeCreateUserRepository {
   async login_userWhereEmailSelect(email: string) {
     const findEmail = this.users.find(user => user.email === email)
     
-    if (!findEmail) return [{ email: email }, { id: 1 }];
+    //if (!findEmail) return [{ email: email }, { id: 1 }];
 
     return []
   }
@@ -30,7 +27,7 @@ export default class FakeCreateUserRepository {
   ) {
     const findUserIndex = this.users.findIndex(user => user.id === user_id)
 
-    this.users[findUserIndex].push({email}, {encriptPassword}, {user_id})
+    this.users.push({email}, {encriptPassword}, {user_id})
 
     return {status: 201}
   }

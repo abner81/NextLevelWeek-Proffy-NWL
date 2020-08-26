@@ -1,23 +1,18 @@
-import db from "../../../shared/infra/database/connection";
+import db from "../../../../shared/infra/database/connection";
+import ICreateUserRepository from "@users/repositories/ICreateUserRepository";
 
-export default class CreateUserRepository {
+export default class CreateUserRepository implements ICreateUserRepository {
   async usersInsertName(name: string) {
     try {
       const user = await db("users").insert({
         name: name,
       });
 
-      if (!user)
-        return {
-          status: 404,
-          message: "Erro ao cadastrar usuário!",
-        };
-
       return { status: 200, message: user[0] };
     } catch (error) {
       return {
         status: 404,
-        message: "Erro ao cadastrar usuário!",
+        message: "Erro ao cadastrar o usuário!",
       };
     }
   }
@@ -36,6 +31,10 @@ export default class CreateUserRepository {
     }
   }
 
+  s () {
+
+  }
+
   async login_userFullInsert(
     email: string,
     encriptPassword: string,
@@ -48,9 +47,12 @@ export default class CreateUserRepository {
         user_id: user_id,
       });
 
-      return {status: 201};
+      return { status: 201 };
     } catch (error) {
-      return {status: 404, message: 'Erro ao cadastrar o usuário'};
+      return {
+        status: 404,
+        message: "Erro ao cadastrar o usuário",
+      };
     }
   }
 }

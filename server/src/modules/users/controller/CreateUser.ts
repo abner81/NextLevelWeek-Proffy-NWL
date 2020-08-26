@@ -1,11 +1,13 @@
+import { container } from 'tsyringe'
 import { Request, Response } from "express";
 
-import CreateUserModel from "../services/CreateUserModel";
-const userModel = new CreateUserModel()
+import CreateUserModel from "../services/CreateUserService";
+
 
 export default class CreateUser {
   async createUserMobile (req: Request, res: Response) {
     const { name } = req.body;
+    const userModel = container.resolve(CreateUserModel);
 
     try {
       const response = await userModel.userMobileModel(name)
@@ -18,6 +20,7 @@ export default class CreateUser {
 
   async createUserWeb (req: Request, res: Response) {
     const { name, email, password } = req.body;
+    const userModel = container.resolve(CreateUserModel);
     try {
       const response = await userModel.userWebModel(name, email, password);
 

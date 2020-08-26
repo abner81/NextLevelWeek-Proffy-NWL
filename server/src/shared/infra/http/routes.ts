@@ -1,11 +1,11 @@
 import express from 'express'
 
-import ClassesControler from '@classes/services/ClassesControler'
-import ConnectionsController from '@users/entities/ConnectionsController'
-import CreateLoginInfo from "@users/entities/LoginController";
-import AuthController from '../../../modules/users/entities/AuthController';
+import ClassesControler from '@classes/controller/ClassesControler'
+import ConnectionsController from '@users/controller/ConnectionsController'
+import CreateLoginInfo from "@users/controller/LoginController";
+import AuthController from '../../../modules/users/controller/AuthController';
 import AuthMiddleware from '../../../modules/users/infra/http/middlewares/AuthMiddlawares';
-import CreateUser from '@users/entities/CreateUser';
+import CreateUser from '@users/controller/CreateUser';
 //import ForgotMiddleware from './middlewares/ForgotMiddlawares';
 
 const routes = express.Router()
@@ -19,7 +19,7 @@ const userControllers = new CreateUser();
 routes.post('/classes', classesControllers.create)
 routes.get('/classes', classesControllers.index)
 
-routes.post('/connections', connectionsControllers.create)
+routes.post( '/connections', connectionsControllers.create)
 routes.get('/connections', connectionsControllers.index)
 
 //Create new account

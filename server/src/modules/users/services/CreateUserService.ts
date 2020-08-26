@@ -1,9 +1,15 @@
 import bcrypt from "bcryptjs";
 
-import CreateUserRepository from "../repository/CreateUserRepository";
-const repository = new CreateUserRepository()
+import ICreateRepository from "../repositories/ICreateUserRepository";
+import { injectable, inject } from 'tsyringe'
 
-export default class CreateUserModel {
+@injectable()
+class CreateUserModel {
+  constructor(
+    @inject('repository')
+    private repository: ICreateRepository,
+  ) {}
+
   async userMobileModel(name: string) {
     try {
       if (!name)
@@ -12,9 +18,15 @@ export default class CreateUserModel {
           message: "Insira corretamente o seu nome!",
         };
 
-      const user = await repository.usersInsertName(name)
-      
-      return { status: user.status, message: { id: user.message } };
+      const user = await this.repository.usersInsertName(name);
+
+      if (user.status === 404)
+        return { status: user.status, message: user.message };
+
+      return {
+        status: user.status,
+        message: { id: user.message },
+      };
     } catch (error) {
       return { status: 404, message: error };
     }
@@ -28,7 +40,7 @@ export default class CreateUserModel {
           message: "Preencha os campos: nome, email e password.",
         };
 
-      const userExists = await repository.login_userWhereEmailSelect(email)
+      const userExists = await this.repository.login_userWhereEmailSelect(email);
 
       if (userExists.length > 0)
         return {
@@ -36,18 +48,18 @@ export default class CreateUserModel {
           message: "Email indisponível, tente novamente com outro email.",
         };
 
-       const user = await repository.usersInsertName(name);
+      const user = await this.repository.usersInsertName(name);
 
       const encriptPassword = bcrypt.hashSync(password, 8);
 
-      const response = await repository.login_userFullInsert(
+      const response = await this.repository.login_userFullInsert(
         email,
         encriptPassword,
         user.message as number
       );
       return {
         status: response.status,
-        message: response.message
+        message: response.message,
       };
     } catch (error) {
       return {
@@ -57,3 +69,5 @@ export default class CreateUserModel {
     }
   }
 }
+
+export default CreateUserModel
