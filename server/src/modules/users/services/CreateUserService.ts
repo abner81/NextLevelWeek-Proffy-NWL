@@ -1,13 +1,15 @@
-import bcrypt from "bcryptjs";
-
-import ICreateRepository from "../repositories/ICreateUserRepository";
 import { injectable, inject } from 'tsyringe'
 
+import IUserRepository from "../repositories/ICreateUserRepository";
+
+import EncriptedHash from "@shared/infra/encriptedHelper/EncriptedHash";
+const bcryptHash = new EncriptedHash();
+
 @injectable()
-class CreateUserModel {
+class UserModel {
   constructor(
-    @inject('repository')
-    private repository: ICreateRepository,
+    @inject("userRepository")
+    private repository: IUserRepository
   ) {}
 
   async userMobileModel(name: string) {
@@ -40,7 +42,9 @@ class CreateUserModel {
           message: "Preencha os campos: nome, email e password.",
         };
 
-      const userExists = await this.repository.login_userWhereEmailSelect(email);
+      const userExists = await this.repository.login_userWhereEmailSelect(
+        email
+      );
 
       if (userExists.length > 0)
         return {
@@ -50,7 +54,7 @@ class CreateUserModel {
 
       const user = await this.repository.usersInsertName(name);
 
-      const encriptPassword = bcrypt.hashSync(password, 8);
+      const encriptPassword = await bcryptHash.hashSync(password, 8)
 
       const response = await this.repository.login_userFullInsert(
         email,
@@ -70,4 +74,4 @@ class CreateUserModel {
   }
 }
 
-export default CreateUserModel
+export default UserModel

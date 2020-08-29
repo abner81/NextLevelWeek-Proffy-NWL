@@ -1,8 +1,8 @@
-import AuthRepository from "@users/infra/repository/AuthRepository";
-const repository = new AuthRepository()
-
 import EncriptedHash from "@shared/infra/encriptedHelper/EncriptedHash";
 const bcryptEncripted = new EncriptedHash();
+
+import * as dotenv from "dotenv";
+dotenv.config();
 
 import TokenJwt from "@shared/infra/tokenJwt/TokenJwt";
 const tokenJwt = new TokenJwt();
@@ -10,14 +10,15 @@ const tokenJwt = new TokenJwt();
 import EmailService from "@shared/infra/email/EmailService";
 const emailService = new EmailService()
 
-import IAuthRepository from "@users/repositories/IAuthRepository";
 import { inject, injectable } from "tsyringe";
+import IUserRepository from "@users/repositories/ICreateUserRepository";
 
 @injectable()
 class AuthService {
   constructor(
-    @inject('authRepository')
-    private repository: IAuthRepository) {}
+    @inject("userRepository")
+    private repository: IUserRepository
+  ) {}
 
   async generateToken(email: string, password: string) {
     try {
@@ -25,17 +26,17 @@ class AuthService {
         return { status: 404, message: "Email e senha são obrigatórios." };
 
       const user = await this.repository.login_userWhereEmail(email);
-
-      if (!user) return { status: 401, message: "Usuário não encontrado" };
-
-      const isValidPassword = await bcryptEncripted.compareHash(
+      
+      if (!user || user.length <= 0) return { status: 401, message: "Usuário não encontrado" };
+    
+     const isValidPassword = await bcryptEncripted.compareHash(
         password,
         user[0].password
       );
 
       if (!isValidPassword) return { status: 401, message: "Senha inválida" };
 
-      const token = tokenJwt.jwtSign(user[0].id, "secret", "365d");
+     const token = tokenJwt.jwtSign(user[0].id, "secret", "365d");
 
       const infoUser = await this.repository.login_userWhereJoinSelect(email);
 
@@ -59,7 +60,7 @@ class AuthService {
     try {
       const user = await this.repository.login_userWhereEmail(email);
 
-      if (!user) return { status: 400, message: "Usuário não encontrado" };
+      if (!user || user.length <= 0) return { status: 400, message: "Usuário não encontrado" };
 
       const token = tokenJwt.jwtSign(
         user[0].id,
