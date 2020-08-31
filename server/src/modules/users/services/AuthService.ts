@@ -1,23 +1,27 @@
-import EncriptedHash from "@shared/infra/encriptedHelper/EncriptedHash";
-const bcryptEncripted = new EncriptedHash();
+import IUserRepository from "@users/repositories/ICreateUserRepository";
+import IHashProvider from '@users/providers/hashProvider/models/IHashProvider'
+import ITokenProvider from "@users/providers/jwtProvider/models/ITokenProvider";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import TokenJwt from "@shared/infra/tokenJwt/TokenJwt";
-const tokenJwt = new TokenJwt();
-
-import EmailService from "@shared/infra/email/EmailService";
-const emailService = new EmailService()
-
 import { inject, injectable } from "tsyringe";
-import IUserRepository from "@users/repositories/ICreateUserRepository";
+import IEmailService from "@shared/infra/providers/email/models/IEmailService";
 
 @injectable()
 class AuthService {
   constructor(
     @inject("userRepository")
-    private repository: IUserRepository
+    private repository: IUserRepository,
+
+    @inject("hashProvider")
+    private bcryptEncripted: IHashProvider,
+
+    @inject("tokenProvider")
+    private token: ITokenProvider,
+
+    @inject("emailProvider")
+    private email: IEmailService
   ) {}
 
   async generateToken(email: string, password: string) {
@@ -26,17 +30,18 @@ class AuthService {
         return { status: 404, message: "Email e senha são obrigatórios." };
 
       const user = await this.repository.login_userWhereEmail(email);
-      
-      if (!user || user.length <= 0) return { status: 401, message: "Usuário não encontrado" };
-    
-     const isValidPassword = await bcryptEncripted.compareHash(
+
+      if (!user || user.length <= 0)
+        return { status: 401, message: "Usuário não encontrado" };
+
+      const isValidPassword = await this.bcryptEncripted.compareHash(
         password,
         user[0].password
       );
 
       if (!isValidPassword) return { status: 401, message: "Senha inválida" };
 
-     const token = tokenJwt.jwtSign(user[0].id, "secret", "365d");
+      const token = this.token.jwtSign(user[0].id, "secret", "365d");
 
       const infoUser = await this.repository.login_userWhereJoinSelect(email);
 
@@ -58,11 +63,14 @@ class AuthService {
 
   async forgotPassword(email: string) {
     try {
+      if (!email) return { status: 404, message: "Email obrigatório." };
+
       const user = await this.repository.login_userWhereEmail(email);
 
-      if (!user || user.length <= 0) return { status: 400, message: "Usuário não encontrado" };
+      if (!user || user.length <= 0)
+        return { status: 400, message: "Usuário não encontrado" };
 
-      const token = tokenJwt.jwtSign(
+      const token = this.token.jwtSign(
         user[0].id,
         process.env.FORGOT_PASSWORD_TOKEN,
         "1h"
@@ -70,7 +78,7 @@ class AuthService {
 
       user[0].password = "";
 
-      const sendEmailSucess = await emailService.sendEmail(
+      const sendEmailSucess = await this.email.sendEmail(
         email,
         "Administrador <1bc06c3f38-638a4b@inbox.mailtrap.io>",
         "Recuperação de senha",
@@ -82,7 +90,11 @@ class AuthService {
           status: 400,
           message: "Erro ao enviar o email de recuperação",
         };
-      return;
+
+      return {
+        status: 200,
+        message: token,
+      };
     } catch (error) {
       return { status: 404, message: error.message };
     }
@@ -90,15 +102,28 @@ class AuthService {
 
   async resetPassword(email: string, password: string, token: string) {
     try {
+      if (!email || !password || !token)
+        return {
+          status: 404,
+          message: "Email, senha e token são obrigatórios.",
+        };
+
       const user = await this.repository.login_userWhereEmail(email);
 
-      if (!user) return { status: 400, message: "Usuário não encontrado" };
+      if (!user || user.length <= 0)
+        return { status: 400, message: "Usuário não encontrado" };
 
-      const data = tokenJwt.jwtVerify(token, process.env.FORGOT_PASSWORD_TOKEN);
+      const data = this.token.jwtVerify(
+        token,
+        process.env.FORGOT_PASSWORD_TOKEN
+      );
 
       if (!data) return { status: 401, message: "Token inválido!" };
 
-      const encriptedPassword = await bcryptEncripted.hashSync(password, 8);
+      const encriptedPassword = await this.bcryptEncripted.hashSync(
+        password,
+        8
+      );
 
       await this.repository.login_userUpdatePassword(email, encriptedPassword);
 

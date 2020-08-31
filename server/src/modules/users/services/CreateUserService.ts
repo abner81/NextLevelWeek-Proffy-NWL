@@ -1,15 +1,16 @@
 import { injectable, inject } from 'tsyringe'
 
 import IUserRepository from "../repositories/ICreateUserRepository";
-
-import EncriptedHash from "@shared/infra/encriptedHelper/EncriptedHash";
-const bcryptHash = new EncriptedHash();
+import IHashProvider from '@users/providers/hashProvider/models/IHashProvider';
 
 @injectable()
 class UserModel {
   constructor(
     @inject("userRepository")
-    private repository: IUserRepository
+    private repository: IUserRepository,
+
+    @inject("hashProvider")
+    private encriptedHash: IHashProvider
   ) {}
 
   async userMobileModel(name: string) {
@@ -54,7 +55,7 @@ class UserModel {
 
       const user = await this.repository.usersInsertName(name);
 
-      const encriptPassword = await bcryptHash.hashSync(password, 8)
+      const encriptPassword = await this.encriptedHash.hashSync(password, 8);
 
       const response = await this.repository.login_userFullInsert(
         email,

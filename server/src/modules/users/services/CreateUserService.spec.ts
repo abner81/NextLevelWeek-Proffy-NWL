@@ -2,11 +2,13 @@ import "reflect-metadata";
 
 import FakeUserRepository from "../repositories/fakes/FakeCreateUserRepository";
 import UserModel from "./CreateUserService";
+import FakeHashProvider from "@users/providers/hashProvider/fakes/FakeHashProvider";
 
 describe("Test user creation in mobile", () => {
   it("should return status 200 success when entering a username", async () => {
     const fakeRepository = new FakeUserRepository();
-    const createUserModel = new UserModel(fakeRepository);
+    const hash = new FakeHashProvider();
+    const createUserModel = new UserModel(fakeRepository, hash);
 
     const response = await createUserModel.userMobileModel("Abner Machado");
     expect(response.status).toBe(200);
@@ -14,7 +16,8 @@ describe("Test user creation in mobile", () => {
 
   it("should return status 404 success when entering a username", async () => {
     const fakeRepository = new FakeUserRepository();
-    const createUserModel = new UserModel(fakeRepository);
+    const hash = new FakeHashProvider();
+    const createUserModel = new UserModel(fakeRepository, hash);
 
     const response = await createUserModel.userMobileModel("Abner Machado");
     expect(response.status).toBe(200);
@@ -22,7 +25,8 @@ describe("Test user creation in mobile", () => {
 
   it("should return status error 404 when not entering a username", async () => {
     const fakeRepository = new FakeUserRepository();
-    const createUserModel = new UserModel(fakeRepository);
+    const hash = new FakeHashProvider();
+    const createUserModel = new UserModel(fakeRepository, hash);
 
     let name: string
 
@@ -34,7 +38,8 @@ describe("Test user creation in mobile", () => {
 describe("Test user creation in web", () => {
   it("should return status error 409 when having an empty parameter", async () => {
     const fakeRepository = new FakeUserRepository();
-    const createUserModel = new UserModel(fakeRepository);
+    const hash = new FakeHashProvider();
+    const createUserModel = new UserModel(fakeRepository, hash);
 
     const name = 'Abner Machado'
     let email: string
@@ -46,7 +51,8 @@ describe("Test user creation in web", () => {
 
   it("should return status 201 when all fields are filled and the email is available", async () => {
     const fakeRepository = new FakeUserRepository();
-    const createUserModel = new UserModel(fakeRepository);
+    const hash = new FakeHashProvider();
+    const createUserModel = new UserModel(fakeRepository, hash);
 
     const response = await createUserModel.userWebModel('Abner Machado', "abner81@live.com", '123456')
     
